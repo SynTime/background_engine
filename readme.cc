@@ -1,4 +1,4 @@
-/* Please go to ‘47.111.15.76’*/
+/* Now,it was closed by no money! Following is only a simple statement.*/
 /* powered by hexo! */
 #include <bits/stdc++.h>
 
