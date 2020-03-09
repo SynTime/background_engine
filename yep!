@@ -1,0 +1,66 @@
+1.yum install python-setuptools //搭建环境
+
+2,easy_install pip //安装pip  //pip install –upgrade pip 升级服务端，一般不需要
+
+3,pip install shadowsocks
+
+4,vim /etc/shadowsocks.json  //新建空文档
+{   
+    "server":"0.0.0.0",
+    "port_password":{          
+        "port1，自己设置端口号" : "端口对应的密码",
+        "port2，自己设置端口号" : "端口对应的密码"
+    },
+    "timeout":300,                     
+    "method":"aes-256-cfb",     
+    "fast_open": false,      //设置是否降低延迟，参数true false
+    "workers": 1 
+}
+
+{
+"server":"0.0.0.0",         #服务端监听IP，我这里用的是aws的ec2，公网IP不固定，故监听所有IP
+"local_address":"127.0.0.1",#本地代理IP
+"local_port":2882,          #本地代理端口
+"port_password": {          #支持多用户，端口对应一个密码，然后为每个用户分配一个端口密码即可
+     "2828": "123456",  
+     "2829": "abcds1",  
+     "2830": "654321"  
+ }, 
+"timeout":600,              #超时时间
+"fast_open": false,         #是否使用tcp
+"method":"aes-256-cfb"      #加密方式
+}
+5,wq
+
+6,# 启动服务
+
+ssserver -c /etc/shadowsocks.json -d start
+
+# 停止服务
+
+ssserver -c /etc/shadowsocks.json -d stop
+
+# 重新启动服务
+
+ssserver -c /etc/shadowsocks.json -d restart
+
+7,查看服务状态
+ps -aux | grep ssserver
+
+8,vim /etc/rc.local 设置开机自启
+sudo ssserver -c /etc/shadowsocks/config.json -d start
+
+9,firewalld的基本使用
+启动： systemctl start firewalld
+查看状态： systemctl status firewalld 
+停止： systemctl disable firewalld
+禁用： systemctl stop firewalld
+
+10,开启端口：firewall-cmd --zone=public --add-port=XXXX/tcp --permanent    （--permanent永久生效，没有此参数重启后失效）
+
+11,firewall-cmd --reload 开启规则
+
+12,firewall-cmd --list-ports 查看开启的端口
+————————————————
+版权声明：本文为CSDN博主「凭栏而望归云处」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/wm123123wm/article/details/103342008
